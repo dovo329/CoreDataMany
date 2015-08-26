@@ -20,9 +20,18 @@
 
 @implementation AppDelegate
 
+enum FetchTest
+{
+    FetchTestAddress,
+    FetchTestPerson,
+    FetchTestScrooge,
+    FetchTestWhiteHouse
+};
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
+    
+    enum FetchTest fetchTest = FetchTestPerson;
+    
     NSEntityDescription *personEntity = [NSEntityDescription entityForName:@"Person" inManagedObjectContext:self.managedObjectContext];
     
     NSEntityDescription *addressEntity = [NSEntityDescription entityForName:@"Address" inManagedObjectContext:self.managedObjectContext];
@@ -33,6 +42,7 @@
     Person *person1 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.managedObjectContext];
     Person *person2 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.managedObjectContext];
     Person *person3 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.managedObjectContext];
+    Person *person4 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.managedObjectContext];
     
     Address *address1 = [[Address alloc] initWithEntity:addressEntity insertIntoManagedObjectContext:self.managedObjectContext];
     Address *address2 = [[Address alloc] initWithEntity:addressEntity insertIntoManagedObjectContext:self.managedObjectContext];
@@ -52,7 +62,12 @@
     person3.age = [NSNumber numberWithDouble:51];
     person3.gender = @"Female";
     person3.places = [[NSSet alloc] initWithObjects:address3, nil];
-
+    
+    person4.name = @"Scrooge McDuck";
+    person4.age = [NSNumber numberWithDouble:(2015.0-1867.0)];
+    person4.gender = @"Male";
+    person4.places = [[NSSet alloc] initWithObjects:address2, address3, nil];
+    
     address1.street = @"123 Nowhere Street";
     address1.city = @"McFeelyVille";
     address1.state = @"Moldova";
@@ -63,13 +78,13 @@
     address2.city = @"Duckberg";
     address2.state = @"Mallard";
     address2.zip = @"11111";
-    address2.residents = [[NSSet alloc] initWithObjects:person1, nil];
+    address2.residents = [[NSSet alloc] initWithObjects:person1, person4, nil];
     
     address3.street = @"1600 Pennsylvania Ave NW";
     address3.city = @"Washington, DC";
     address3.state = @"Washington, DC";
     address3.zip = @"20006";
-    address3.residents = [[NSSet alloc] initWithObjects:person2, person3, nil];
+    address3.residents = [[NSSet alloc] initWithObjects:person2, person3, person4, nil];
     
     if (![self.managedObjectContext save:&error]) {
         NSLog(@"managed Object Context save error %@", error);
@@ -79,36 +94,76 @@
     NSLog(@"app dir: %@",[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject]);
 #endif
     
-    NSFetchRequest *personFetchRequest = [[NSFetchRequest alloc] init];
-    [personFetchRequest setEntity:personEntity];
-    
-    NSFetchRequest *addressFetchRequest = [[NSFetchRequest alloc] init];
-    [addressFetchRequest setEntity:addressEntity];
-    
-    //NSArray *result = [self.managedObjectContext executeFetchRequest:personFetchRequest error:&error];
-    NSArray *result = [self.managedObjectContext executeFetchRequest:addressFetchRequest error:&error];
-    
-    if (error) {
-        NSLog(@"Unable to execute fetch request.");
-        NSLog(@"%@, %@", error, error.localizedDescription);
+    // #pragma mark - fetch tests
+    if (fetchTest == FetchTestAddress) {
+        NSFetchRequest *addressFetchRequest = [[NSFetchRequest alloc] init];
+        [addressFetchRequest setEntity:addressEntity];
+        
+        NSArray *result = [self.managedObjectContext executeFetchRequest:addressFetchRequest error:&error];
+        if (error) {
+            NSLog(@"Unable to execute fetch request.");
+            NSLog(@"%@, %@", error, error.localizedDescription);
+            
+        } else {
+            for (int i=0; i<[result count]; i++) {
+                NSLog(@"**********************************************************");
+                NSLog(@"[%d] fetch result before property access: %@", i, result[i]);
+                Address *address = result[i];
+                //NSLog(@"address[%d] property access street: %@", i, address.street);
+                NSArray *residents = [address.residents allObjects];
+                
+                for (int j=0; j< [residents count]; j++) {
+                    Person *person = residents[j];
+                    NSLog(@"before address[%d] property access relationship person[%d]: %@", i, j, person);
+                    NSLog(@"address[%d] property access relationship person[%d].name: %@", i, j, person.name);
+                    NSLog(@"after address[%d] property access relationship person[%d]: %@", i, j, person);
+                }
+                
+                NSLog(@"[%d] fetch result after property access: %@", i, result[i]);
+                NSLog(@"**********************************************************");
+                NSLog(@"");
+                NSLog(@"");
+            }
+        }
+        
+    } else if (fetchTest == FetchTestPerson) {
+        
+        NSFetchRequest *personFetchRequest = [[NSFetchRequest alloc] init];
+        [personFetchRequest setEntity:personEntity];
+        
+        NSArray *result = [self.managedObjectContext executeFetchRequest:personFetchRequest error:&error];
+        
+        if (error) {
+            NSLog(@"Unable to execute fetch request.");
+            NSLog(@"%@, %@", error, error.localizedDescription);
+            
+        } else {
+            for (int i=0; i<[result count]; i++) {
+                NSLog(@"**********************************************************");
+                NSLog(@"[%d] fetch result before property access: %@", i, result[i]);
+                Person *person = result[i];
+                NSArray *places = [person.places allObjects];
+                
+                for (int j=0; j< [places count]; j++) {
+                    Address *address = places[j];
+                    NSLog(@"before person[%d] property access relationship places[%d]: %@", i, j, address);
+                    NSLog(@"person[%d] property access relationship places[%d].name: %@", i, j, address.street);
+                    NSLog(@"after person[%d] property access relationship places[%d]: %@", i, j, address);
+                }
+                
+                NSLog(@"[%d] fetch result after property access: %@", i, result[i]);
+                NSLog(@"**********************************************************");
+                NSLog(@"");
+                NSLog(@"");
+            }
+        }
+        
+    } else if (fetchTest == FetchTestScrooge) {
+        
+    } else if (fetchTest == FetchTestWhiteHouse) {
         
     } else {
-        for (int i=0; i<[result count]; i++) {
-            NSLog(@"[%d] fetch result before property access: %@", i, result[i]);
-            Address *address = result[i];
-            //NSLog(@"address[%d] property access street: %@", i, address.street);
-            NSArray *residents = [address.residents allObjects];
-            
-            for (int j=0; j< [residents count]; j++) {
-                Person *person = residents[j];
-                NSLog(@"before address[%d] property access relationship person[%d]: %@", i, j, person);
-                NSLog(@"address[%d] property access relationship person[%d].name: %@", i, j, person.name);
-                NSLog(@"after address[%d] property access relationship person[%d]: %@", i, j, person);
-            }
-            
-            NSLog(@"[%d] fetch result after property access: %@", i, result[i]);
-        }
-
+        NSLog(@"invalid case");
     }
     
     return YES;
