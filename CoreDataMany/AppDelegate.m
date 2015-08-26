@@ -10,6 +10,8 @@
 #import "Address.h"
 #import "Person.h"
 
+#define NSLog(FORMAT, ...) printf("%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
+
 //#define REMAKE_DB
 
 @interface AppDelegate ()
@@ -25,30 +27,50 @@
     
     NSEntityDescription *addressEntity = [NSEntityDescription entityForName:@"Address" inManagedObjectContext:self.managedObjectContext];
     
-    Person *person = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.managedObjectContext];
+    NSError *error = nil;
+    
+#ifdef REMAKE_DB
+    Person *person1 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.managedObjectContext];
+    Person *person2 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.managedObjectContext];
+    Person *person3 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.managedObjectContext];
     
     Address *address1 = [[Address alloc] initWithEntity:addressEntity insertIntoManagedObjectContext:self.managedObjectContext];
     Address *address2 = [[Address alloc] initWithEntity:addressEntity insertIntoManagedObjectContext:self.managedObjectContext];
+    Address *address3 = [[Address alloc] initWithEntity:addressEntity insertIntoManagedObjectContext:self.managedObjectContext];
     
-    person.name = @"Guy McShneezagin";
-    person.age = [NSNumber numberWithDouble:32.1];
-    person.gender = @"Male";
-    person.places = [[NSSet alloc] initWithObjects:address1, address2, nil];
+    person1.name = @"Guy McShneezagin";
+    person1.age = [NSNumber numberWithDouble:32.1];
+    person1.gender = @"Male";
+    person1.places = [[NSSet alloc] initWithObjects:address1, address2, nil];
+    
+    person2.name = @"Barak Obama";
+    person2.age = [NSNumber numberWithDouble:54];
+    person2.gender = @"Male";
+    person2.places = [[NSSet alloc] initWithObjects:address3, nil];
+    
+    person3.name = @"Michelle Obama";
+    person3.age = [NSNumber numberWithDouble:51];
+    person3.gender = @"Female";
+    person3.places = [[NSSet alloc] initWithObjects:address3, nil];
 
     address1.street = @"123 Nowhere Street";
     address1.city = @"McFeelyVille";
     address1.state = @"Moldova";
     address1.zip = @"90210";
-    address1.residents = [[NSSet alloc] initWithObjects:person, nil];
+    address1.residents = [[NSSet alloc] initWithObjects:person1, nil];
     
     address2.street = @"25 Jumpy Street";
     address2.city = @"Duckberg";
     address2.state = @"Mallard";
     address2.zip = @"11111";
-    address2.residents = [[NSSet alloc] initWithObjects:person, nil];
+    address2.residents = [[NSSet alloc] initWithObjects:person1, nil];
     
-    NSError *error = nil;
-#ifdef REMAKE_DB
+    address3.street = @"1600 Pennsylvania Ave NW";
+    address3.city = @"Washington, DC";
+    address3.state = @"Washington, DC";
+    address3.zip = @"20006";
+    address3.residents = [[NSSet alloc] initWithObjects:person2, person3, nil];
+    
     if (![self.managedObjectContext save:&error]) {
         NSLog(@"managed Object Context save error %@", error);
     } else {
@@ -71,7 +93,22 @@
         NSLog(@"%@, %@", error, error.localizedDescription);
         
     } else {
-        NSLog(@"fetch result: %@", result);
+        for (int i=0; i<[result count]; i++) {
+            NSLog(@"[%d] fetch result before property access: %@", i, result[i]);
+            Address *address = result[i];
+            //NSLog(@"address[%d] property access street: %@", i, address.street);
+            NSArray *residents = [address.residents allObjects];
+            
+            for (int j=0; j< [residents count]; j++) {
+                Person *person = residents[j];
+                NSLog(@"before address[%d] property access relationship person[%d]: %@", i, j, person);
+                NSLog(@"address[%d] property access relationship person[%d].name: %@", i, j, person.name);
+                NSLog(@"after address[%d] property access relationship person[%d]: %@", i, j, person);
+            }
+            
+            NSLog(@"[%d] fetch result after property access: %@", i, result[i]);
+        }
+
     }
     
     return YES;
