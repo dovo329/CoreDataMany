@@ -30,7 +30,7 @@ enum FetchTest
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    enum FetchTest fetchTest = FetchTestWhiteHouse;
+    enum FetchTest fetchTest = FetchTestPerson;
     
     NSEntityDescription *personEntity = [NSEntityDescription entityForName:@"Person" inManagedObjectContext:self.managedObjectContext];
     
@@ -131,6 +131,9 @@ enum FetchTest
         NSFetchRequest *personFetchRequest = [[NSFetchRequest alloc] init];
         [personFetchRequest setEntity:personEntity];
         
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"age" ascending:YES];
+        [personFetchRequest setSortDescriptors:@[sortDescriptor]];
+        
         NSArray *result = [self.managedObjectContext executeFetchRequest:personFetchRequest error:&error];
         
         if (error) {
@@ -199,7 +202,7 @@ enum FetchTest
         
         // Create Predicate to just return whiteHouse
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"zip", @"20006"];
-        [whiteHouseFetchRequest setPredicate:predicate];
+        whiteHouseFetchRequest.predicate = predicate;
         
         NSArray *result = [self.managedObjectContext executeFetchRequest:whiteHouseFetchRequest error:&error];
         
