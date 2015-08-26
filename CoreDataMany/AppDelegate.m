@@ -30,7 +30,7 @@ enum FetchTest
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    enum FetchTest fetchTest = FetchTestPerson;
+    enum FetchTest fetchTest = FetchTestWhiteHouse;
     
     NSEntityDescription *personEntity = [NSEntityDescription entityForName:@"Person" inManagedObjectContext:self.managedObjectContext];
     
@@ -159,8 +159,75 @@ enum FetchTest
         }
         
     } else if (fetchTest == FetchTestScrooge) {
+        NSFetchRequest *scroogeFetchRequest = [[NSFetchRequest alloc] init];
+        [scroogeFetchRequest setEntity:personEntity];
+        
+        // Create Predicate to just return Scrooge
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"name", @"Scrooge McDuck"];
+        [scroogeFetchRequest setPredicate:predicate];
+        
+        NSArray *result = [self.managedObjectContext executeFetchRequest:scroogeFetchRequest error:&error];
+        
+        if (error) {
+            NSLog(@"Unable to execute fetch request.");
+            NSLog(@"%@, %@", error, error.localizedDescription);
+            
+        } else {
+            for (int i=0; i<[result count]; i++) {
+                NSLog(@"**********************************************************");
+                NSLog(@"[%d] fetch result before property access: %@", i, result[i]);
+                Person *person = result[i];
+                NSArray *places = [person.places allObjects];
+                
+                for (int j=0; j< [places count]; j++) {
+                    Address *address = places[j];
+                    NSLog(@"before person[%d] property access relationship places[%d]: %@", i, j, address);
+                    NSLog(@"person[%d] property access relationship places[%d].name: %@", i, j, address.street);
+                    NSLog(@"after person[%d] property access relationship places[%d]: %@", i, j, address);
+                }
+                
+                NSLog(@"[%d] fetch result after property access: %@", i, result[i]);
+                NSLog(@"**********************************************************");
+                NSLog(@"");
+                NSLog(@"");
+            }
+        }
         
     } else if (fetchTest == FetchTestWhiteHouse) {
+        NSFetchRequest *whiteHouseFetchRequest = [[NSFetchRequest alloc] init];
+        [whiteHouseFetchRequest setEntity:addressEntity];
+        
+        // Create Predicate to just return whiteHouse
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"zip", @"20006"];
+        [whiteHouseFetchRequest setPredicate:predicate];
+        
+        NSArray *result = [self.managedObjectContext executeFetchRequest:whiteHouseFetchRequest error:&error];
+        
+        if (error) {
+            NSLog(@"Unable to execute fetch request.");
+            NSLog(@"%@, %@", error, error.localizedDescription);
+            
+        } else {
+            for (int i=0; i<[result count]; i++) {
+                NSLog(@"**********************************************************");
+                NSLog(@"[%d] fetch result before property access: %@", i, result[i]);
+                Address *address = result[i];
+                //NSLog(@"address[%d] property access street: %@", i, address.street);
+                NSArray *residents = [address.residents allObjects];
+                
+                for (int j=0; j< [residents count]; j++) {
+                    Person *person = residents[j];
+                    NSLog(@"before address[%d] property access relationship person[%d]: %@", i, j, person);
+                    NSLog(@"address[%d] property access relationship person[%d].name: %@", i, j, person.name);
+                    NSLog(@"after address[%d] property access relationship person[%d]: %@", i, j, person);
+                }
+                
+                NSLog(@"[%d] fetch result after property access: %@", i, result[i]);
+                NSLog(@"**********************************************************");
+                NSLog(@"");
+                NSLog(@"");
+            }
+        }
         
     } else {
         NSLog(@"invalid case");
