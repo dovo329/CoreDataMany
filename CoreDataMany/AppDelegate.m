@@ -9,12 +9,15 @@
 #import "AppDelegate.h"
 #import "Address.h"
 #import "Person.h"
+#import "CoreDataStack.h"
 
 #define NSLog(FORMAT, ...) printf("%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
 
 //#define REMAKE_DB
 
 @interface AppDelegate ()
+
+@property (nonatomic, strong) CoreDataStack *coreDataStack;
 
 @end
 
@@ -30,23 +33,25 @@ enum FetchTest
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    enum FetchTest fetchTest = FetchTestPerson;
+    enum FetchTest fetchTest = FetchTestScrooge;
     
-    NSEntityDescription *personEntity = [NSEntityDescription entityForName:@"Person" inManagedObjectContext:self.managedObjectContext];
+    self.coreDataStack = [[CoreDataStack alloc] init];
     
-    NSEntityDescription *addressEntity = [NSEntityDescription entityForName:@"Address" inManagedObjectContext:self.managedObjectContext];
+    NSEntityDescription *personEntity = [NSEntityDescription entityForName:@"Person" inManagedObjectContext:self.coreDataStack.context];
+    
+    NSEntityDescription *addressEntity = [NSEntityDescription entityForName:@"Address" inManagedObjectContext:self.coreDataStack.context];
     
     NSError *error = nil;
     
 #ifdef REMAKE_DB
-    Person *person1 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.managedObjectContext];
-    Person *person2 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.managedObjectContext];
-    Person *person3 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.managedObjectContext];
-    Person *person4 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.managedObjectContext];
+    Person *person1 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.coreDataStack.context];
+    Person *person2 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.coreDataStack.context];
+    Person *person3 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.coreDataStack.context];
+    Person *person4 = [[Person alloc] initWithEntity:personEntity insertIntoManagedObjectContext:self.coreDataStack.context];
     
-    Address *address1 = [[Address alloc] initWithEntity:addressEntity insertIntoManagedObjectContext:self.managedObjectContext];
-    Address *address2 = [[Address alloc] initWithEntity:addressEntity insertIntoManagedObjectContext:self.managedObjectContext];
-    Address *address3 = [[Address alloc] initWithEntity:addressEntity insertIntoManagedObjectContext:self.managedObjectContext];
+    Address *address1 = [[Address alloc] initWithEntity:addressEntity insertIntoManagedObjectContext:self.coreDataStack.context];
+    Address *address2 = [[Address alloc] initWithEntity:addressEntity insertIntoManagedObjectContext:self.coreDataStack.context];
+    Address *address3 = [[Address alloc] initWithEntity:addressEntity insertIntoManagedObjectContext:self.coreDataStack.context];
     
     person1.name = @"Guy McShneezagin";
     person1.age = [NSNumber numberWithDouble:32.1];
@@ -86,7 +91,7 @@ enum FetchTest
     address3.zip = @"20006";
     address3.residents = [[NSSet alloc] initWithObjects:person2, person3, person4, nil];
     
-    if (![self.managedObjectContext save:&error]) {
+    if (![self.coreDataStack.context save:&error]) {
         NSLog(@"managed Object Context save error %@", error);
     } else {
         NSLog(@"save was a success");
@@ -99,7 +104,7 @@ enum FetchTest
         NSFetchRequest *addressFetchRequest = [[NSFetchRequest alloc] init];
         [addressFetchRequest setEntity:addressEntity];
         
-        NSArray *result = [self.managedObjectContext executeFetchRequest:addressFetchRequest error:&error];
+        NSArray *result = [self.coreDataStack.context executeFetchRequest:addressFetchRequest error:&error];
         if (error) {
             NSLog(@"Unable to execute fetch request.");
             NSLog(@"%@, %@", error, error.localizedDescription);
@@ -134,7 +139,7 @@ enum FetchTest
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"age" ascending:YES];
         [personFetchRequest setSortDescriptors:@[sortDescriptor]];
         
-        NSArray *result = [self.managedObjectContext executeFetchRequest:personFetchRequest error:&error];
+        NSArray *result = [self.coreDataStack.context executeFetchRequest:personFetchRequest error:&error];
         
         if (error) {
             NSLog(@"Unable to execute fetch request.");
@@ -169,7 +174,7 @@ enum FetchTest
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"name", @"Scrooge McDuck"];
         [scroogeFetchRequest setPredicate:predicate];
         
-        NSArray *result = [self.managedObjectContext executeFetchRequest:scroogeFetchRequest error:&error];
+        NSArray *result = [self.coreDataStack.context executeFetchRequest:scroogeFetchRequest error:&error];
         
         if (error) {
             NSLog(@"Unable to execute fetch request.");
@@ -204,7 +209,7 @@ enum FetchTest
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"zip", @"20006"];
         whiteHouseFetchRequest.predicate = predicate;
         
-        NSArray *result = [self.managedObjectContext executeFetchRequest:whiteHouseFetchRequest error:&error];
+        NSArray *result = [self.coreDataStack.context executeFetchRequest:whiteHouseFetchRequest error:&error];
         
         if (error) {
             NSLog(@"Unable to execute fetch request.");
@@ -331,7 +336,7 @@ enum FetchTest
 #pragma mark - Core Data Saving support
 
 - (void)saveContext {
-    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
+    NSManagedObjectContext *managedObjectContext = self.coreDataStack.context;
     if (managedObjectContext != nil) {
         NSError *error = nil;
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {

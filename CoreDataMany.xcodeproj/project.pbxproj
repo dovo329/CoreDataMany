@@ -18,6 +18,7 @@
 		A549B4161B8D082500D0D0BF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A549B4151B8D082500D0D0BF /* CoreData.framework */; };
 		A549B41B1B8D10E500D0D0BF /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = A549B4181B8D10E500D0D0BF /* Address.m */; };
 		A549B41C1B8D10E500D0D0BF /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = A549B41A1B8D10E500D0D0BF /* Person.m */; };
+		A573ABBC1B8E6F1E00162039 /* CoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = A573ABBB1B8E6F1E00162039 /* CoreDataStack.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,8 @@
 		A549B4181B8D10E500D0D0BF /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Address.m; sourceTree = "<group>"; };
 		A549B4191B8D10E500D0D0BF /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
 		A549B41A1B8D10E500D0D0BF /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		A573ABBA1B8E6F1E00162039 /* CoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataStack.h; sourceTree = "<group>"; };
+		A573ABBB1B8E6F1E00162039 /* CoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataStack.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +99,8 @@
 				A549B4141B8D069500D0D0BF /* CoreDataObjects */,
 				A549B3E91B8D051800D0D0BF /* AppDelegate.h */,
 				A549B3EA1B8D051800D0D0BF /* AppDelegate.m */,
+				A573ABBA1B8E6F1E00162039 /* CoreDataStack.h */,
+				A573ABBB1B8E6F1E00162039 /* CoreDataStack.m */,
 				A549B3EF1B8D051800D0D0BF /* ViewController.h */,
 				A549B3F01B8D051800D0D0BF /* ViewController.m */,
 				A549B3F21B8D051800D0D0BF /* Main.storyboard */,
@@ -246,6 +251,7 @@
 			files = (
 				A549B41C1B8D10E500D0D0BF /* Person.m in Sources */,
 				A549B3EE1B8D051800D0D0BF /* CoreDataMany.xcdatamodeld in Sources */,
+				A573ABBC1B8E6F1E00162039 /* CoreDataStack.m in Sources */,
 				A549B3EB1B8D051800D0D0BF /* AppDelegate.m in Sources */,
 				A549B3F11B8D051800D0D0BF /* ViewController.m in Sources */,
 				A549B41B1B8D10E500D0D0BF /* Address.m in Sources */,
@@ -444,6 +450,7 @@
 				A549B40A1B8D051800D0D0BF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A549B40B1B8D051800D0D0BF /* Build configuration list for PBXNativeTarget "CoreDataManyTests" */ = {
 			isa = XCConfigurationList;
@@ -452,6 +459,7 @@
 				A549B40D1B8D051800D0D0BF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

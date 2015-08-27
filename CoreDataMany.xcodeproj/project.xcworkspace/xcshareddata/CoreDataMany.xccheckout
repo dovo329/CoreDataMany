@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>10C9FB38-4167-437F-8792-D50B4FA74DA3</string>
+	<key>IDESourceControlProjectName</key>
+	<string>CoreDataMany</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>4068AAD24C4E29D511D42265B2FBFB1500304D31</key>
+		<string>https://github.com/dovo329/CoreDataMany.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>CoreDataMany.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>4068AAD24C4E29D511D42265B2FBFB1500304D31</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/dovo329/CoreDataMany.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>4068AAD24C4E29D511D42265B2FBFB1500304D31</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4068AAD24C4E29D511D42265B2FBFB1500304D31</string>
+			<key>IDESourceControlWCCName</key>
+			<string>CoreDataMany</string>
+		</dict>
+	</array>
+</dict>
+</plist>
