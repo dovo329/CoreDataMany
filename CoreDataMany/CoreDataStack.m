@@ -23,7 +23,7 @@
         
         self.model = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
         self.psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.model];
-        self.context = [[NSManagedObjectContext alloc] init];
+        self.context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         self.context.persistentStoreCoordinator = self.psc;
         
         self.documentsURL = [CoreDataStack applicationDocumentsDirectory];
