@@ -27,7 +27,7 @@
         self.context.persistentStoreCoordinator = self.psc;
         
         self.documentsURL = [CoreDataStack applicationDocumentsDirectory];
-        self.storeURL = [self.documentsURL URLByAppendingPathComponent:@"CoreDataMany"];
+        self.storeURL = [self.documentsURL URLByAppendingPathComponent:@"CoreDataMany.sqlite"];
         NSDictionary* options = @{NSMigratePersistentStoresAutomaticallyOption : @YES};
         
         NSError *error;

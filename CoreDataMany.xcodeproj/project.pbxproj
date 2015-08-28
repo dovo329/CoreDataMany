@@ -19,6 +19,7 @@
 		A549B41B1B8D10E500D0D0BF /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = A549B4181B8D10E500D0D0BF /* Address.m */; };
 		A549B41C1B8D10E500D0D0BF /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = A549B41A1B8D10E500D0D0BF /* Person.m */; };
 		A573ABBC1B8E6F1E00162039 /* CoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = A573ABBB1B8E6F1E00162039 /* CoreDataStack.m */; };
+		A5E51CAC1B8FD5CD004EFC56 /* PersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5E51CAB1B8FD5CD004EFC56 /* PersonCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,10 @@
 		A549B41A1B8D10E500D0D0BF /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		A573ABBA1B8E6F1E00162039 /* CoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataStack.h; sourceTree = "<group>"; };
 		A573ABBB1B8E6F1E00162039 /* CoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataStack.m; sourceTree = "<group>"; };
+		A5E51CAA1B8FD5CD004EFC56 /* PersonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonCell.h; sourceTree = "<group>"; };
+		A5E51CAB1B8FD5CD004EFC56 /* PersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonCell.m; sourceTree = "<group>"; };
+		A5E51CAD1B8FD614004EFC56 /* Global.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Global.h; sourceTree = "<group>"; };
+		A5E51CAF1B8FD90F004EFC56 /* CoreDataMany-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoreDataMany-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +82,7 @@
 		A549B3D91B8D051800D0D0BF = {
 			isa = PBXGroup;
 			children = (
+				A5E51CAF1B8FD90F004EFC56 /* CoreDataMany-Prefix.pch */,
 				A549B4151B8D082500D0D0BF /* CoreData.framework */,
 				A549B3E41B8D051800D0D0BF /* CoreDataMany */,
 				A549B4011B8D051800D0D0BF /* CoreDataManyTests */,
@@ -103,6 +109,9 @@
 				A573ABBB1B8E6F1E00162039 /* CoreDataStack.m */,
 				A549B3EF1B8D051800D0D0BF /* ViewController.h */,
 				A549B3F01B8D051800D0D0BF /* ViewController.m */,
+				A5E51CAD1B8FD614004EFC56 /* Global.h */,
+				A5E51CAA1B8FD5CD004EFC56 /* PersonCell.h */,
+				A5E51CAB1B8FD5CD004EFC56 /* PersonCell.m */,
 				A549B3F21B8D051800D0D0BF /* Main.storyboard */,
 				A549B3F51B8D051800D0D0BF /* Images.xcassets */,
 				A549B3F71B8D051800D0D0BF /* LaunchScreen.xib */,
@@ -255,6 +264,7 @@
 				A549B3EB1B8D051800D0D0BF /* AppDelegate.m in Sources */,
 				A549B3F11B8D051800D0D0BF /* ViewController.m in Sources */,
 				A549B41B1B8D10E500D0D0BF /* Address.m in Sources */,
+				A5E51CAC1B8FD5CD004EFC56 /* PersonCell.m in Sources */,
 				A549B3E81B8D051800D0D0BF /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -322,6 +332,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoreDataMany-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -364,6 +376,8 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoreDataMany-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -381,6 +395,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREFIX_HEADER = "CoreDataMany-Prefix.pch";
 				INFOPLIST_FILE = CoreDataMany/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -391,6 +406,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREFIX_HEADER = "CoreDataMany-Prefix.pch";
 				INFOPLIST_FILE = CoreDataMany/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
