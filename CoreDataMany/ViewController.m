@@ -33,6 +33,7 @@
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     [self.tableView registerClass:[PersonCell class] forCellReuseIdentifier:kPersonCellId];
+    [self tableViewConstraints];
     
     self.personArray = [NSMutableArray new];
     self.addressArray = [NSMutableArray new];
@@ -72,6 +73,46 @@
             [self.addressArray addObject:address];
         }
     }
+}
+
+- (void)tableViewConstraints {
+    [self.tableView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:
+     [NSLayoutConstraint
+      constraintWithItem:self.tableView
+      attribute:NSLayoutAttributeLeft
+      relatedBy:NSLayoutRelationEqual
+      toItem:self.view
+      attribute:NSLayoutAttributeLeft
+      multiplier:1.0
+      constant:0.0]];
+    [self.view addConstraint:
+     [NSLayoutConstraint
+      constraintWithItem:self.tableView
+      attribute:NSLayoutAttributeRight
+      relatedBy:NSLayoutRelationEqual
+      toItem:self.view
+      attribute:NSLayoutAttributeRight
+      multiplier:1.0
+      constant:0.0]];
+    [self.view addConstraint:
+     [NSLayoutConstraint
+      constraintWithItem:self.tableView
+      attribute:NSLayoutAttributeTop
+      relatedBy:NSLayoutRelationEqual
+      toItem:self.topLayoutGuide
+      attribute:NSLayoutAttributeBottom
+      multiplier:1.0
+      constant:0.0]];
+    [self.view addConstraint:
+     [NSLayoutConstraint
+      constraintWithItem:self.tableView
+      attribute:NSLayoutAttributeBottom
+      relatedBy:NSLayoutRelationEqual
+      toItem:self.view
+      attribute:NSLayoutAttributeBottom
+      multiplier:1.0
+      constant:0.0]];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
